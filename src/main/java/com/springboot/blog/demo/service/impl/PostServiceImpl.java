@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
 
     public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
@@ -36,8 +38,8 @@ public class PostServiceImpl implements PostService {
         Post newPost = postRepository.save(post);
 
       // convert entity to DTO
-        PostDto postResponse = mapToDTO(newPost);
-        return postResponse;
+//        PostDto postResponse = mapToDTO(newPost);
+        return postDto;
     }
 
     private PostDto mapToDTO(Post post){
@@ -46,6 +48,10 @@ public class PostServiceImpl implements PostService {
         postDto.setTitle(post.getTitle());
         postDto.setDescription(post.getDescription());
         postDto.setContent(post.getContent());
+        postDto.setCreatedAt(post.getCreatedAt());
+        postDto.setModifiedAt(post.getModifiedAt());
+        postDto.setDeletedFlag(post.getDeletedFlag());
+
         return postDto;
     }
 
@@ -54,6 +60,10 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
+        postDto.setCreatedAt(post.getCreatedAt());
+        postDto.setModifiedAt(post.getModifiedAt());
+        postDto.setDeletedFlag(post.getDeletedFlag());
+
         return post;
     }
 
@@ -96,16 +106,28 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
+        post.setModifiedAt(new Date());
 
         Post updatePost = postRepository.save(post);
         return mapToDTO(updatePost);
     }
 
+
+
     @Override
     public void delelePostById(long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post","id",id));
-        postRepository.delete(post);
+
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post","id", id));
+        post.setDeletedFlag(0);
+        Post deletePost =  postRepository.save(post);
     }
+
+    @Override
+    public PostDto getPostByIdWithDeleteFlag() {
+
+        return  postRepository.findByDeletedFlag();
+    }
+
 
 
 }

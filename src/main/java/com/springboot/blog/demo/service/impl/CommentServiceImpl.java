@@ -29,6 +29,14 @@ public class CommentServiceImpl implements CommentService {
         this.postRepository = postRepository;
     }
 
+    /**
+     *
+     * create comment in a post
+     * @param postId
+     * @param commentDto
+     * @return
+     */
+
     @Override
     public CommentDto createComment(long postId, CommentDto commentDto) {
 
@@ -43,6 +51,14 @@ public class CommentServiceImpl implements CommentService {
 
         return mapToDto(newComment);
     }
+
+
+    /**
+     *
+     * get comment by post id
+     * @param postId
+     * @return
+     */
 
     @Override
     public List<CommentDto> getCommentByPostId(long postId) {
@@ -124,6 +140,8 @@ public class CommentServiceImpl implements CommentService {
         comment.setName(commentDto.getName());
         comment.setEmail(commentDto.getEmail());
         comment.setBody(commentDto.getBody());
+        comment.setCreatedAt(commentDto.getCreatedAt());
+        comment.setModifiedAt(commentDto.getModifiedAt());
         return comment;
     }
 

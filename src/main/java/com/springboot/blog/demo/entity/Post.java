@@ -1,9 +1,11 @@
 package com.springboot.blog.demo.entity;
 
 
+import com.springboot.blog.demo.payload.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +18,7 @@ import java.util.Set;
 @Table(
         name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})}
 )
-public class Post {
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
@@ -32,6 +34,7 @@ public class Post {
 
     @Column(name = "content", nullable = false)
     private String content;
+
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();

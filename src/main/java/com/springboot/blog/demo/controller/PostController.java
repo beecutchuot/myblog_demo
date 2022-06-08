@@ -1,17 +1,18 @@
 package com.springboot.blog.demo.controller;
 
+import com.springboot.blog.demo.entity.Post;
 import com.springboot.blog.demo.payload.PostDto;
 import com.springboot.blog.demo.payload.PostResponse;
 import com.springboot.blog.demo.service.PostService;
 import com.springboot.blog.demo.utils.AppConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@Slf4j
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/demo")
 public class PostController {
 
     private PostService postService;
@@ -27,7 +28,15 @@ public class PostController {
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
-    //get all post
+
+    /**
+     * get all post
+     * @param pageNo
+     * @param pageSize
+     * @param sortBy
+     * @param sortDir
+     * @return
+     */
     @GetMapping
     public PostResponse getAllPosts(
             @RequestParam(value = "pageNo",defaultValue = AppConstants.DEDFAULT_PAGE_NUMBER,required = false) int pageNo,
@@ -35,27 +44,39 @@ public class PostController {
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEDFAULT_SORT_BY,required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEDFAULT_SORT_DIRECTION,required = false) String sortDir
     ){
+        log.info("start -------method : getAllPosts -----------");
         return postService.getAllPosts(pageNo,pageSize,sortBy,sortDir);
+
     }
 
     //get  posst by id
-    @GetMapping("/{id}")
+    @GetMapping("get-by/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") long id) {
         return ResponseEntity.ok(postService.getPostbyId(id));
     }
 
+    @GetMapping("get-by-id-with-deleteflag")
+    public ResponseEntity<PostDto>getPostByIdWithDeleteFlag() {
+        PostDto posts = postService.getPostByIdWithDeleteFlag();
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable(name ="id") long id){
 
-        PostDto postResponse= postService.updatePost(postDto,id);
+
+
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable(name ="id") long id) {
+        PostDto postResponse = postService.updatePost(postDto,id);
         return new ResponseEntity<>(postResponse,HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id) {
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable(name ="id") long id) {
         postService.delelePostById(id);
-        return  new ResponseEntity<>("delete successfully", HttpStatus.OK);
+        return new ResponseEntity<>("deleted ok",HttpStatus.OK);
 
     }
+
+
 }
