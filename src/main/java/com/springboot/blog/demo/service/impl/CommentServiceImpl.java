@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,6 +100,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setName(commentRequest.getName());
         comment.setEmail(commentRequest.getEmail());
         comment.setBody(commentRequest.getBody());
+        comment.setModifiedAt(new Date());
 
         Comment updateComment = commentRepository.save(comment);
         return mapToDto(updateComment);
@@ -124,6 +126,11 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
+    @Override
+    public void delelePostById(long id) {
+
+    }
+
 
     private CommentDto mapToDto(Comment comment) {
         CommentDto commentDto = new CommentDto();
@@ -131,17 +138,21 @@ public class CommentServiceImpl implements CommentService {
         commentDto.setName(comment.getName());
         commentDto.setEmail(comment.getEmail());
         commentDto.setBody(comment.getBody());
+        commentDto.setModifiedAt(comment.getModifiedAt());
+        commentDto.setCreatedAt(comment.getCreatedAt());
+        commentDto.setDeletedFlag(comment.getDeletedFlag());
+
         return commentDto;
     }
 
     private Comment mapToEntity(CommentDto commentDto) {
         Comment comment = new Comment();
-        comment.setId(commentDto.getId());
         comment.setName(commentDto.getName());
         comment.setEmail(commentDto.getEmail());
         comment.setBody(commentDto.getBody());
-        comment.setCreatedAt(commentDto.getCreatedAt());
-        comment.setModifiedAt(commentDto.getModifiedAt());
+//        comment.setCreatedAt(commentDto.getCreatedAt());
+//        comment.setModifiedAt(commentDto.getModifiedAt());
+//        comment.setDeletedFlag(commentDto.getDeletedFlag());
         return comment;
     }
 

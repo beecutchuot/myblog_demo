@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/demo")
@@ -55,14 +57,25 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostbyId(id));
     }
 
-    @GetMapping("get-by-id-with-deleteflag")
-    public ResponseEntity<PostDto>getPostByIdWithDeleteFlag() {
-        PostDto posts = postService.getPostByIdWithDeleteFlag();
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+
+    /**
+     * get all post with deleteflag =1
+     *
+     * @return
+     */
+
+    @GetMapping("get-all-with-deleteflag")
+    public ResponseEntity<List<Post>> getAllPostWithDeleteFlag() {
+        return ResponseEntity.ok(postService.getPostByIdWithDeleteFlag());
     }
 
 
-
+    /**
+     * update a post
+     * @param postDto
+     * @param id
+     * @return
+     */
 
 
     @PutMapping("update/{id}")

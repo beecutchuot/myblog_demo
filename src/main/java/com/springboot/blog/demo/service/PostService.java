@@ -1,5 +1,6 @@
 package com.springboot.blog.demo.service;
 
+import com.springboot.blog.demo.entity.Post;
 import com.springboot.blog.demo.payload.PostDto;
 import com.springboot.blog.demo.payload.PostResponse;
 
@@ -24,7 +25,7 @@ public interface PostService {
     void delelePostById(long id);
 
 
-    PostDto getPostByIdWithDeleteFlag();
+    List<Post> getPostByIdWithDeleteFlag();
 }
 
 

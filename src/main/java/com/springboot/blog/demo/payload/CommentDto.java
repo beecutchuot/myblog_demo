@@ -14,5 +14,5 @@ public class CommentDto {
     private String body;
     protected Date createdAt;
     protected Date modifiedAt;
-
+    protected Integer deletedFlag;
 }

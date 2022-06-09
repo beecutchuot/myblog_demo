@@ -63,7 +63,6 @@ public class PostServiceImpl implements PostService {
         postDto.setCreatedAt(post.getCreatedAt());
         postDto.setModifiedAt(post.getModifiedAt());
         postDto.setDeletedFlag(post.getDeletedFlag());
-
         return post;
     }
 
@@ -123,9 +122,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto getPostByIdWithDeleteFlag() {
+    public List<Post> getPostByIdWithDeleteFlag() {
 
-        return  postRepository.findByDeletedFlag();
+        return postRepository.findByDeletedFlag();
     }
 
 
