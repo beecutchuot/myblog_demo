@@ -126,10 +126,10 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
-    @Override
-    public void delelePostById(long id) {
-
-    }
+//    @Override
+//    public void delelePostById(long id) {
+//
+//    }
 
 
     private CommentDto mapToDto(Comment comment) {
