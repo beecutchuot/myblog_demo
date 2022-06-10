@@ -1,6 +1,5 @@
 package com.springboot.blog.demo.entity;
-
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springboot.blog.demo.payload.BaseEntity;
 import lombok.*;
 
@@ -37,6 +36,7 @@ public class Post extends BaseEntity {
 
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Comment> comments = new HashSet<>();
 
 

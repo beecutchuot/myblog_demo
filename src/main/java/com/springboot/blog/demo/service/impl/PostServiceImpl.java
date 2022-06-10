@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,9 +32,9 @@ public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
 
 
-    public PostServiceImpl(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+//    public PostServiceImpl(PostRepository postRepository) {
+//        this.postRepository = postRepository;
+//    }
 
     @Override
     public PostDto createPost(PostDto postDto) {
@@ -43,7 +44,7 @@ public class PostServiceImpl implements PostService {
         Post post = maptoEntity(postDto);
         Post newPost = postRepository.save(post);
 
-      // convert entity to DTO
+        // convert entity to DTO
 //        PostDto postResponse = mapToDTO(newPost);
         return postDto;
     }
@@ -61,10 +62,10 @@ public class PostServiceImpl implements PostService {
         postDto.setDeletedFlag(post.getDeletedFlag());
 //        postDto.setComments(post.getComments());
         // chưa thêm được comment vào bài post để hiển thị ra
-
-
         return postDto;
     }
+
+
 
     private Post maptoEntity(PostDto postDto){
 
@@ -135,9 +136,11 @@ public class PostServiceImpl implements PostService {
         Post deletePost =  postRepository.save(post);
     }
 
+
+
+    // lỗi ko hiển thị đk bài viết theo deletedId
     @Override
     public List<Post> getPostByIdWithDeleteFlag() {
-
         return postRepository.findByDeletedFlag();
     }
 

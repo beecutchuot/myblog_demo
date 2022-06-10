@@ -3,9 +3,11 @@ package com.springboot.blog.demo.controller;
 import com.springboot.blog.demo.entity.Post;
 import com.springboot.blog.demo.payload.PostDto;
 import com.springboot.blog.demo.payload.PostResponse;
+import com.springboot.blog.demo.repository.PostRepository;
 import com.springboot.blog.demo.service.PostService;
 import com.springboot.blog.demo.utils.AppConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Slf4j
+
 @RestController
 @RequestMapping("/api/demo")
 public class PostController {
 
+    @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostRepository postRepository;
 
     // tiem phu thuoc bang constructor
     public PostController(PostService postService) {
@@ -47,7 +53,7 @@ public class PostController {
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEDFAULT_SORT_BY,required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEDFAULT_SORT_DIRECTION,required = false) String sortDir
     ){
-        log.info("start -------method : getAllPosts -----------");
+
         return postService.getAllPosts(pageNo,pageSize,sortBy,sortDir);
 
     }
@@ -65,7 +71,7 @@ public class PostController {
      * @return
      */
 
-    @GetMapping("get-all-with-deleteflag")
+    @GetMapping("/get-all-with-delete-flag")
     public ResponseEntity<List<Post>> getAllPostWithDeleteFlag() {
         return ResponseEntity.ok(postService.getPostByIdWithDeleteFlag());
     }
